@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { FiMail, FiLock, FiEye, FiEyeOff } from 'react-icons/fi';
-import { login } from '../../utils/localStorage';
+import { login } from '../../services/authService';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -12,25 +12,33 @@ const Login = () => {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    setLoading(true);
 
-    // Simulasi login
-    const users = JSON.parse(localStorage.getItem('users') || '[]');
-    const user = users.find(u => u.email === formData.email && u.password === formData.password && u.role === formData.role);
+    try {
+      // Login menggunakan authService
+      const user = await login(formData.email, formData.password);
 
-    if (user) {
-      login({ id: user.id, name: user.name, email: user.email, role: user.role });
-      
+      // Cek apakah role sesuai
+      if (user.role !== formData.role) {
+        setError(`Anda terdaftar sebagai ${user.role}, bukan ${formData.role}`);
+        setLoading(false);
+        return;
+      }
+
+      // Redirect berdasarkan role
       if (user.role === 'donatur') {
         navigate('/dashboard-donatur');
       } else {
         navigate('/dashboard-penerima');
       }
-    } else {
-      setError('Email, password, atau role tidak valid');
+    } catch (err) {
+      setError(err.message || 'Email, password, atau role tidak valid');
+      setLoading(false);
     }
   };
 
@@ -132,9 +140,10 @@ const Login = () => {
             {/* Submit Button */}
             <button
               type="submit"
-              className="w-full py-4 bg-gradient-to-r from-[#007EFF] to-[#0063FF] text-white font-bold rounded-xl hover:shadow-xl hover:shadow-[#007EFF]/30 transition-all hover:scale-105"
+              disabled={loading}
+              className="w-full py-4 bg-gradient-to-r from-[#007EFF] to-[#0063FF] text-white font-bold rounded-xl hover:shadow-xl hover:shadow-[#007EFF]/30 transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Login
+              {loading ? 'Loading...' : 'Login'}
             </button>
 
             {/* Register Link */}
