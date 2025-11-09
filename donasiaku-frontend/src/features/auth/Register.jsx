@@ -85,11 +85,12 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-50 to-primary-100 py-12 px-4">
+    // --- SAYA REVISI BARIS DI BAWAH INI ---
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-50 to-primary-100 px-4 pt-40 pb-20">
       <div className="max-w-md w-full">
         <div className="bg-white rounded-2xl shadow-xl p-8">
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-gray-800 mb-2">Daftar DonasiAku</h2>
+            <h2 className="text-3xl font-bold text-gray-800 mb-2">Daftar Donasiku</h2>
             <p className="text-gray-600">Buat akun untuk mulai berbagi kebaikan</p>
           </div>
 

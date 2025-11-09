@@ -27,7 +27,7 @@ const EditDonasi = () => {
   ];
 
   useEffect(() => {
-    const savedDonations = JSON.parse(localStorage.getItem('donations') || '[]');
+    const savedDonations = JSON.parse(localStorage.getItem('donasi') || '[]');
     const donation = savedDonations.find(d => d.id === id);
     if (donation) {
       setFormData(donation);
@@ -55,11 +55,11 @@ const EditDonasi = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    const savedDonations = JSON.parse(localStorage.getItem('donations') || '[]');
+    const savedDonations = JSON.parse(localStorage.getItem('donasi') || '[]');
     const updatedDonations = savedDonations.map(d => 
       d.id === id ? { ...formData, updatedAt: new Date().toISOString() } : d
     );
-    localStorage.setItem('donations', JSON.stringify(updatedDonations));
+    localStorage.setItem('donasi', JSON.stringify(updatedDonations));
 
     setTimeout(() => {
       navigate('/dashboard-donatur');

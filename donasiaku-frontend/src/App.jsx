@@ -9,6 +9,13 @@ import DashboardDonatur from './features/donatur/DashboardDonatur';
 import FormDonasi from './features/donatur/FormDonasi';
 import EditDonasi from './features/donatur/EditDonasi';
 import NotFound from './pages/NotFound';
+
+// Impor untuk halaman penerima
+import DashboardPenerima from './features/penerima/DashboardPenerima.jsx'; 
+
+// --- 1. SAYA TAMBAHKAN IMPORT RIWAYAT DI SINI ---
+import Riwayat from './features/riwayat/Riwayat.jsx';
+
 import { isAuthenticated, getUserRole } from './utils/localStorage';
 
 const ProtectedRoute = ({ children, requiredRole }) => {
@@ -38,6 +45,8 @@ function App() {
 
         {/* Dashboard Routes - dengan DashboardLayout */}
         <Route path="/" element={<DashboardLayout />}>
+          
+          {/* Rute Donatur */}
           <Route 
             path="dashboard-donatur" 
             element={
@@ -62,6 +71,35 @@ function App() {
               </ProtectedRoute>
             } 
           />
+          
+ 
+          <Route 
+            path="dashboard-penerima" 
+            element={
+              <ProtectedRoute requiredRole="penerima">
+                <DashboardPenerima />
+              </ProtectedRoute>
+            } 
+          />
+          
+          {/* --- 2. SAYA TAMBAHKAN RUTE RIWAYAT DI SINI --- */}
+          <Route 
+            path="donatur/riwayat" 
+            element={
+              <ProtectedRoute requiredRole="donatur">
+                <Riwayat />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="penerima/riwayat" 
+            element={
+              <ProtectedRoute requiredRole="penerima">
+                <Riwayat />
+              </ProtectedRoute>
+            } 
+          />
+
         </Route>
       </Routes>
     </Router>
