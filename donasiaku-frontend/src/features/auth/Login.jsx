@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { FiMail, FiLock, FiEye, FiEyeOff } from 'react-icons/fi';
 import { login } from '../../services/authService';
@@ -13,6 +13,12 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  
+  // Untuk animasi fade-in
+  const [isMounted, setIsMounted] = useState(false);
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -43,22 +49,28 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-cyan-50 flex items-center justify-center p-6">
-      <div className="w-full max-w-md">
-        <div className="bg-white rounded-3xl shadow-2xl overflow-hidden">
-          {/* Header */}
-          <div className="bg-gradient-to-r from-[#007EFF] to-[#0063FF] text-white p-8 text-center">
-            <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
-              <img src="/logo-donasiku.png" alt="DonasiKu" className="h-12 w-auto brightness-0 invert" />
-            </div>
-            <h1 className="text-3xl font-bold mb-2">Login ke DonasiAku</h1>
-            <p className="text-blue-100">Masuk untuk mulai berdonasi</p>
+    // Padding atas (pt-40) agar tidak tertutup navbar
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-cyan-50 flex items-center justify-center pt-40 pb-20 px-6">
+      
+      {/* Wrapper untuk animasi */}
+      <div className={`w-full max-w-md transition-all duration-700 ease-out ${isMounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+        
+        {/* --- REVISI UTAMA --- */}
+        {/* Mengganti struktur kartu agar sama seperti Register.jsx */}
+        {/* Menghapus 'overflow-hidden' dan menambahkan 'p-8' */}
+        <div className="bg-white rounded-3xl shadow-2xl p-8">
+          
+          {/* Header Teks (menggantikan header biru) */}
+          <div className="text-center mb-8">
+            <h2 className="text-3xl font-bold text-gray-800 mb-2">Login ke Donasiku</h2>
+            <p className="text-gray-600">Masuk untuk mulai berdonasi</p>
           </div>
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="p-8 space-y-6">
+          {/* Menghapus 'p-8' dari sini karena sudah ada di parent */}
+          <form onSubmit={handleSubmit} className="space-y-6">
             {error && (
-              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl text-sm">
+              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl text-sm transition-all animate-pulse">
                 {error}
               </div>
             )}
@@ -72,24 +84,24 @@ const Login = () => {
                 <button
                   type="button"
                   onClick={() => setFormData({ ...formData, role: 'donatur' })}
-                  className={`py-3 px-4 rounded-xl font-semibold transition-all ${
+                  className={`py-3 px-4 rounded-xl font-semibold transition-all duration-200 ${
                     formData.role === 'donatur'
-                      ? 'bg-gradient-to-r from-[#007EFF] to-[#0063FF] text-white shadow-lg'
+                      ? 'bg-gradient-to-r from-[#007EFF] to-[#0063FF] text-white shadow-lg scale-105'
                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                   }`}
                 >
-                  🎁 Donatur
+                   Donatur
                 </button>
                 <button
                   type="button"
                   onClick={() => setFormData({ ...formData, role: 'penerima' })}
-                  className={`py-3 px-4 rounded-xl font-semibold transition-all ${
+                  className={`py-3 px-4 rounded-xl font-semibold transition-all duration-200 ${
                     formData.role === 'penerima'
-                      ? 'bg-gradient-to-r from-[#007EFF] to-[#0063FF] text-white shadow-lg'
+                      ? 'bg-gradient-to-r from-[#007EFF] to-[#0063FF] text-white shadow-lg scale-105'
                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                   }`}
                 >
-                  🤝 Penerima
+                   Penerima
                 </button>
               </div>
             </div>
@@ -99,8 +111,8 @@ const Login = () => {
               <label className="block text-sm font-bold text-gray-900 mb-2">
                 Email *
               </label>
-              <div className="relative">
-                <FiMail className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-xl" />
+              <div className="relative group">
+                <FiMail className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-xl transition-colors group-focus-within:text-[#007EFF]" />
                 <input
                   type="email"
                   required
@@ -117,8 +129,8 @@ const Login = () => {
               <label className="block text-sm font-bold text-gray-900 mb-2">
                 Password *
               </label>
-              <div className="relative">
-                <FiLock className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-xl" />
+              <div className="relative group">
+                <FiLock className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-xl transition-colors group-focus-within:text-[#007EFF]" />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   required
@@ -141,7 +153,7 @@ const Login = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-4 bg-gradient-to-r from-[#007EFF] to-[#0063FF] text-white font-bold rounded-xl hover:shadow-xl hover:shadow-[#007EFF]/30 transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full py-4 bg-gradient-to-r from-[#007EFF] to-[#0063FF] text-white font-bold rounded-xl hover:shadow-xl hover:shadow-[#007EFF]/30 transition-all hover:scale-[1.03] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? 'Loading...' : 'Login'}
             </button>
@@ -164,7 +176,7 @@ const Login = () => {
 
         {/* Back to Home */}
         <div className="text-center mt-6">
-          <Link to="/" className="text-gray-600 hover:text-[#007EFF] font-semibold">
+          <Link to="/" className="text-gray-600 hover:text-[#007EFF] font-semibold transition-colors">
             ← Kembali ke Home
           </Link>
         </div>

@@ -54,9 +54,9 @@ const FormDonasi = () => {
       createdAt: new Date().toISOString()
     };
 
-    const savedDonations = JSON.parse(localStorage.getItem('donations') || '[]');
+    const savedDonations = JSON.parse(localStorage.getItem('donasi') || '[]');
     savedDonations.push(newDonation);
-    localStorage.setItem('donations', JSON.stringify(savedDonations));
+    localStorage.setItem('donasi', JSON.stringify(savedDonations));
 
     setTimeout(() => {
       navigate('/dashboard-donatur');

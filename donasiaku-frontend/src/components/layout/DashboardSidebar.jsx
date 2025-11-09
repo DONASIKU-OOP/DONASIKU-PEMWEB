@@ -1,11 +1,17 @@
+// src/components/layout/DashboardSidebar.jsx
+
 import { Link, useLocation } from 'react-router-dom';
-import { FiHome, FiPackage, FiInbox, FiMessageSquare, FiClock, FiUser, FiSettings, FiLogOut, FiChevronLeft } from 'react-icons/fi';
-import { logout } from '../../utils/localStorage';
+import { 
+  FiHome, FiPackage, FiInbox, FiMessageSquare, FiClock, FiUser, 
+  FiSettings, FiLogOut, FiChevronLeft, FiSearch, FiHeart 
+} from 'react-icons/fi';
+import { logout, getUserRole } from '../../utils/localStorage'; // <-- Tambahkan getUserRole
 import { useNavigate } from 'react-router-dom';
 
 const DashboardSidebar = ({ isOpen, toggleSidebar }) => {
   const location = useLocation();
   const navigate = useNavigate();
+  const role = getUserRole(); // <-- Dapatkan role pengguna
 
   const handleLogout = () => {
     logout();
@@ -14,18 +20,35 @@ const DashboardSidebar = ({ isOpen, toggleSidebar }) => {
 
   const isActive = (path) => location.pathname === path;
 
-  const mainMenuItems = [
-    { path: '/dashboard-donatur', label: 'Dashboard', icon: FiHome },
-    { path: '/donatur/donasi-saya', label: 'Donasi Saya', icon: FiPackage },
-    { path: '/donatur/permintaan', label: 'Permintaan', icon: FiInbox },
-    { path: '/donatur/chat', label: 'Chat', icon: FiMessageSquare },
-    { path: '/donatur/riwayat', label: 'Riwayat', icon: FiClock },
-  ];
+  // Definisikan menu berdasarkan role
+  let mainMenuItems = [];
+  let bottomMenuItems = [];
 
-  const bottomMenuItems = [
-    { path: '/donatur/profil', label: 'Profil', icon: FiUser },
-    { path: '/donatur/settings', label: 'Settings', icon: FiSettings },
-  ];
+  if (role === 'donatur') {
+    mainMenuItems = [
+      { path: '/dashboard-donatur', label: 'Dashboard', icon: FiHome },
+      { path: '/donatur/donasi-saya', label: 'Donasi Saya', icon: FiPackage },
+      { path: '/donatur/permintaan', label: 'Permintaan', icon: FiInbox },
+      { path: '/donatur/chat', label: 'Chat', icon: FiMessageSquare },
+      { path: '/donatur/riwayat', label: 'Riwayat', icon: FiClock },
+    ];
+    bottomMenuItems = [
+      { path: '/donatur/profil', label: 'Profil', icon: FiUser },
+      { path: '/donatur/settings', label: 'Settings', icon: FiSettings },
+    ];
+  } else if (role === 'penerima') {
+    mainMenuItems = [
+      // Ini adalah halaman utama untuk penerima
+      { path: '/dashboard-penerima', label: 'Cari Donasi', icon: FiSearch }, 
+      { path: '/penerima/permintaan-saya', label: 'Permintaan Saya', icon: FiInbox },
+      { path: '/penerima/chat', label: 'Chat', icon: FiMessageSquare },
+      { path: '/penerima/riwayat', label: 'Riwayat', icon: FiClock },
+    ];
+    bottomMenuItems = [
+      { path: '/penerima/profil', label: 'Profil', icon: FiUser },
+      { path: '/penerima/settings', label: 'Settings', icon: FiSettings },
+    ];
+  }
 
   return (
     <>
@@ -45,7 +68,7 @@ const DashboardSidebar = ({ isOpen, toggleSidebar }) => {
           {/* Logo & Toggle */}
           <div className="h-20 flex items-center justify-between px-6 border-b border-gray-200">
             {isOpen && (
-              <Link to="/dashboard-donatur" className="flex items-center space-x-2">
+              <Link to="/" className="flex items-center space-x-2">
                 <img 
                   src="/logo-donasiku.png" 
                   alt="DonasiKu" 
@@ -61,7 +84,7 @@ const DashboardSidebar = ({ isOpen, toggleSidebar }) => {
             </button>
           </div>
 
-          {/* Main Menu */}
+          {/* Main Menu (Dinamis) */}
           <div className="flex-1 overflow-y-auto py-6">
             <div className="px-3 mb-2">
               {isOpen && <p className="text-xs font-semibold text-gray-500 uppercase px-3 mb-2">Main</p>}
@@ -84,7 +107,7 @@ const DashboardSidebar = ({ isOpen, toggleSidebar }) => {
               ))}
             </nav>
 
-            {/* Settings Section */}
+            {/* Settings Section (Dinamis) */}
             <div className="px-3 mt-8 mb-2">
               {isOpen && <p className="text-xs font-semibold text-gray-500 uppercase px-3 mb-2">Setting</p>}
             </div>

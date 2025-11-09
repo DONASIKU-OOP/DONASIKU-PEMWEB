@@ -18,7 +18,7 @@ const DashboardDonatur = () => {
   }, []);
 
   const loadDonations = () => {
-    const savedDonations = JSON.parse(localStorage.getItem('donations') || '[]');
+    const savedDonations = JSON.parse(localStorage.getItem('donasi') || '[]');
     const userDonations = savedDonations.filter(d => d.userId === user.id);
     
     setDonations(userDonations);
@@ -32,9 +32,9 @@ const DashboardDonatur = () => {
 
   const handleDelete = (id) => {
     if (window.confirm('Apakah Anda yakin ingin menghapus donasi ini?')) {
-      const savedDonations = JSON.parse(localStorage.getItem('donations') || '[]');
+      const savedDonations = JSON.parse(localStorage.getItem('donasi') || '[]');
       const updatedDonations = savedDonations.filter(d => d.id !== id);
-      localStorage.setItem('donations', JSON.stringify(updatedDonations));
+      localStorage.setItem('donasi', JSON.stringify(updatedDonations));
       loadDonations();
     }
   };
