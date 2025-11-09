@@ -1,112 +1,116 @@
- Laporan Kemajuan Fitur - Donasiku
- Nauval Yusriya Athalla
+# 📘 Laporan Kemajuan Fitur - Donasiku
+**Oleh:** Nauval Yusriya Athalla - 103032330022
+**Tanggal:**  09 November 2025  
 
-Dokumen ini merangkum pekerjaan yang telah selesai (Done) dan rencana kerja selanjutnya (To-Do) untuk fitur-fitur utama yang telah saya kerjakan.
+Dokumen ini merangkum perkembangan implementasi fitur pada proyek **Donasiku**, termasuk fitur yang telah selesai (✅ *Done*) dan rencana pengembangan berikutnya (🛠️ *To-Do*).
 
-1. Login dan Registrasi (Auth)
+---
 
-Selesai Dikerjakan (Done)
+##  1. ✅ Login dan Registrasi (Auth)
 
-Pembuatan Halaman:
+###  **Selesai Dikerjakan (Done)**
 
-File src/features/auth/Login.jsx telah dibuat.
+#### 📄 Pembuatan Halaman
+- `src/features/auth/Login.jsx` telah dibuat.  
+- `src/features/auth/Register.jsx` telah dibuat.  
 
-File src/features/auth/Register.jsx telah dibuat.
+#### ⚙️ Logika Inti
+- Kedua halaman terhubung dengan `authService.js` untuk memproses **pendaftaran** dan **login** pengguna.  
+- Data pengguna (termasuk `role`) disimpan di `localStorage` (melalui `users_db` dan `user`).  
 
-Logika Inti:
+#### 💡 Fungsionalitas
+- Pengguna dapat memilih **role** (Donatur atau Penerima) saat mendaftar.  
+- Halaman Login memverifikasi **role** yang dipilih saat login.  
 
-Kedua halaman terhubung dengan authService.js untuk memproses pendaftaran dan login pengguna.
+#### 🧩 Perbaikan Bug & UI
+- [BUG FIX] Navbar publik yang menutupi halaman **Login/Register** telah diperbaiki dengan menambahkan `padding-top (pt-40)`.  
+- [REVISI UI] Desain halaman **Login** kini konsisten dengan **Register** (menghapus header biru pada kartu).  
+- [UI/UX] Menambahkan animasi *fade-in* dan *focus interaction* pada input field.  
 
-Data pengguna (termasuk role) disimpan di localStorage (melalui users_db dan user).
+### 🛠️ **Rencana Selanjutnya (To-Do)**
+- [SELESAI] Fitur fungsional sudah lengkap sesuai spesifikasi.  
+- (Opsional) Tambah fitur **Lupa Password** di masa depan.  
 
-Fungsionalitas:
+---
 
-Pengguna dapat memilih role (Donatur atau Penerima) saat mendaftar.
+##  2. Dashboard Penerima
 
-Halaman Login memverifikasi role yang dipilih pengguna saat login.
+### ✅ **Selesai Dikerjakan (Done)**
 
-Perbaikan Bug & UI:
+#### 📄 Pembuatan Halaman
+- `src/features/penerima/DashboardPenerima.jsx` telah dibuat.  
 
-[BUG FIX] Halaman Register dan Login yang tertutup oleh navbar publik telah diperbaiki dengan menambahkan padding atas (pt-40).
+#### 🧭 Routing & Layout
+- [BUG FIX] Rute `/dashboard-penerima` kini berada di dalam `DashboardLayout` di `App.jsx`.  
+  → Memperbaiki bug *sidebar* dan *topbar* yang tidak muncul.  
+- `DashboardSidebar.jsx` kini **dinamis**, menampilkan menu sesuai role Penerima.  
 
-[REVISI UI] Halaman Login telah didesain ulang agar konsisten dengan tampilan halaman Register (menghilangkan header biru pada kartu).
+#### ⚙️ Fungsionalitas Inti
+- Halaman berhasil memuat data donasi dari `getAllDonasi()`.  
+- [BUG FIX] Perbaikan kunci `localStorage` dari `'donations'/'donaasi'` → `'donasi'`.  
+  → Memastikan data donasi tampil di dashboard.  
+- Data yang ditampilkan: hanya donasi dengan status **aktif**.  
 
-[UI/UX] Menambahkan animasi fade-in dan interaksi focus pada input field di kedua halaman.
+#### 🎨 UI (Sesuai Desain)
+- Implementasi **header biru**, **search bar**, dan **filter kategori**.  
+- Grid menampilkan kartu donasi (foto, nama, kategori, status).  
 
-Rencana Selanjutnya (To-Do)
+### 🛠️ **Rencana Selanjutnya (To-Do)**
 
-[SELESAI] Fitur ini secara fungsional sudah lengkap sesuai dengan dokumen spesifikasi.
+#### 📌 Langkah 3 & 4 – *Permintaan Barang*
+- Buat halaman `DetailDonasi.jsx` (tombol “Lihat Detail & Ajukan” belum berfungsi).  
+- Tambahkan `requestService.js` untuk pengelolaan data permintaan.  
+- Tambahkan fungsi baru di `localStorage.js` untuk data `'requests'`.  
+- Implementasikan tombol “Kirim Permintaan Donasi” di halaman detail.  
 
-(Opsional) Implementasi fitur "Lupa Password" (jika diperlukan di masa depan).
+#### 📌 Langkah 5 – *Permintaan Saya*
+- Buat `PermintaanSaya.jsx` (rute `/penerima/permintaan-saya`)  
+  untuk menampilkan status permintaan (*pending, approved, completed*).  
 
-2. Dashboard Penerima
+#### 📌 Langkah 6 & 7 – *Integrasi dengan Donatur*
+- Modifikasi `DashboardDonatur.jsx` untuk menampilkan **Permintaan Masuk**.  
+- Tambahkan tombol “Setujui” / “Tolak” untuk Donatur.  
+- Tambahkan tombol “Konfirmasi Barang Diterima” untuk Penerima.  
 
-Selesai Dikerjakan (Done)
+---
 
-Pembuatan Halaman:
+## 📦 3. Riwayat / Cek Status
 
-File src/features/penerima/DashboardPenerima.jsx telah dibuat.
+### ✅ **Selesai Dikerjakan (Done)**
 
-Routing & Layout:
+#### 📄 Pembuatan Halaman
+- `src/features/riwayat/Riwayat.jsx` telah dibuat dengan struktur sesuai spesifikasi.  
 
-[BUG FIX] Rute /dashboard-penerima telah dipindahkan ke dalam DashboardLayout di App.jsx. Ini memperbaiki bug di mana sidebar dan topbar (termasuk tombol logout/profil) tidak muncul.
+#### 🧭 Routing
+- [BUG FIX] Menambahkan rute:
+  - `/donatur/riwayat`  
+  - `/penerima/riwayat`  
+  ke dalam `App.jsx` di `DashboardLayout`.  
+  → Memperbaiki error *404 Halaman Tidak Ditemukan*.  
 
-DashboardSidebar.jsx telah berhasil dimodifikasi menjadi dinamis, sehingga menampilkan menu yang benar (Cari Donasi, Permintaan Saya, dll.) saat login sebagai Penerima.
+#### ⚙️ Logika Awal
+- Halaman mendeteksi **role** pengguna (Donatur / Penerima).  
+- Untuk **Donatur:** menampilkan donasi dengan status *selesai*.  
+- Untuk **Penerima:** menampilkan pesan *“Fitur Dalam Pengembangan”*.  
 
-Fungsionalitas Inti:
+---
 
-Halaman berhasil memuat data donasi dari getAllDonasi().
+## 🧭 Status Umum Proyek
 
-[BUG FIX] Logika localStorage di semua file Donatur (FormDonasi, EditDonasi, DashboardDonatur) telah diperbaiki (dari 'donations'/'donaasi' menjadi 'donasi'). Ini adalah perbaikan kritis yang memungkinkan data donasi muncul di dasbor ini.
+| Fitur | Status | Catatan |
+|-------|---------|----------|
+| Login & Register | ✅ Selesai | Sudah sesuai spesifikasi |
+| Dashboard Donatur | ⚙️ Dalam Progres | Menunggu integrasi dengan permintaan penerima |
+| Dashboard Penerima | ✅ Dasar selesai | Butuh pengembangan halaman detail dan permintaan |
+| Riwayat Donasi | ✅ Selesai (Donatur) | Penerima masih *on progress* |
+| Request System | 🛠️ Belum dimulai | Direncanakan di tahap berikutnya |
 
-Data yang ditampilkan sudah benar, yaitu hanya donasi dengan status "aktif".
+---
 
-UI (Sesuai Desain):
+## 🧑‍💻 Catatan Akhir
+Progres pengembangan berjalan sesuai jadwal. Fokus pengembangan berikutnya adalah **integrasi antara Donatur dan Penerima melalui sistem permintaan donasi**, serta **penyempurnaan alur Riwayat dan Notifikasi**.
 
-Tampilan header biru, search bar, dan filter kategori telah diimplementasikan.
+---
 
-Grid untuk menampilkan kartu-kartu donasi (lengkap dengan foto, nama, kategori, dll.) sudah siap.
-
-Rencana Selanjutnya (To-Do)
-
-Implementasi "Permintaan Barang" (Langkah 3 & 4 dari Rencana):
-
-Membuat halaman DetailDonasi.jsx. Saat ini, tombol "Lihat Detail & Ajukan" belum berfungsi.
-
-Membuat service baru requestService.js untuk mengelola data permintaan.
-
-Menambah fungsi baru di localStorage.js untuk menyimpan data 'requests'.
-
-Mengimplementasikan logika tombol "Kirim Permintaan Donasi" di halaman detail.
-
-Implementasi "Permintaan Saya" (Langkah 5):
-
-Membuat halaman PermintaanSaya.jsx (rute /penerima/permintaan-saya) untuk melacak status permintaan (pending, approved, completed).
-
-Integrasi dengan Donatur (Langkah 6 & 7):
-
-Memodifikasi DashboardDonatur.jsx untuk menampilkan "Permintaan Masuk".
-
-Menambahkan tombol "Setujui" / "Tolak" untuk Donatur.
-
-Menambahkan tombol "Konfirmasi Barang Diterima" untuk Penerima di halaman PermintaanSaya.jsx.
-
-3. Riwayat / Cek Status
-
-Selesai Dikerjakan (Done)
-
-Pembuatan Halaman:
-
-File src/features/riwayat/Riwayat.jsx telah dibuat di lokasi yang benar.
-
-Routing:
-
-[BUG FIX] Rute /donatur/riwayat dan /penerima/riwayat telah ditambahkan dengan benar ke App.jsx di dalam DashboardLayout, memperbaiki error "404 Halaman Tidak Ditemukan".
-
-Logika Awal:
-
-Halaman ini sudah bisa mendeteksi role pengguna (Donatur atau Penerima).
-
-Untuk Donatur: Logika untuk mengambil dan menampilkan donasi yang berstatus "selesai" sudah diimplementasikan.
-
-Untuk Penerima: Menampilkan pesan "Fitur Dalam Pengembangan" (sesuai rencana).
+📅 **Update Terakhir:** 9 November 2025  
+✍️ *Disusun oleh Nauval Yusriya Athalla*
