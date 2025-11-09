@@ -1,1 +1,1 @@
-Besok Deadline euyy
+Besok deadline euyy
