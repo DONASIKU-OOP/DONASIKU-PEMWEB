@@ -24,28 +24,8 @@ const Riwayat = () => {
           );
           setHistoryItems(myHistory);
         } else if (role === 'penerima') {
-          // Riwayat penerima berasal dari requests yang telah 'completed'
-          try {
-            const allRequests = getRequests();
-            const myCompleted = allRequests.filter(r => r.penerimaId === user.id && r.status === 'completed');
-            // Gabungkan dengan data donasi
-            const allDonasiLocal = getDonasi();
-            const items = myCompleted.map(r => {
-              const d = allDonasiLocal.find(dd => String(dd.id) === String(r.donasiId)) || {};
-              return {
-                id: r.id,
-                nama: d.nama || 'Barang',
-                image: d.image || d.gambar || null,
-                jumlah: r.jumlahDiminta,
-                lokasi: d.lokasi || '-',
-                updatedAt: r.updatedAt || r.createdAt,
-              };
-            });
-            setHistoryItems(items);
-          } catch (err) {
-            console.error('Gagal memuat riwayat penerima:', err);
-            setHistoryItems([]);
-          }
+          // Untuk sekarang riwayat penerima tidak ditampilkan (fitur dikembalikan ke placeholder)
+          setHistoryItems([]);
         }
       } catch (error) {
         console.error("Gagal memuat riwayat:", error);
@@ -107,53 +87,19 @@ const Riwayat = () => {
           </div>
         )}
         
-        {!loading && role === 'penerima' && historyItems.length === 0 && (
-          <div className="bg-white rounded-2xl shadow-lg p-12 text-center">
+        {!loading && role === 'penerima' && (
+           <div className="bg-white rounded-2xl shadow-lg p-12 text-center">
             <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <FiAlertCircle className="text-5xl text-gray-400" />
             </div>
-            <h3 className="text-2xl font-bold text-gray-900 mb-2">Belum Ada Riwayat Penerimaan</h3>
-            <p className="text-gray-600 mb-6">Riwayat penerimaan barang akan muncul di sini setelah Anda menandai permintaan sebagai selesai.</p>
+            <h3 className="text-2xl font-bold text-gray-900 mb-2">Fitur Dalam Pengembangan</h3>
+            <p className="text-gray-600 mb-6">Riwayat penerimaan barang akan muncul di sini setelah fitur "Permintaan Saya" selesai dibuat.</p>
             <Link
               to="/dashboard-penerima"
               className="inline-flex items-center space-x-2 px-8 py-3 bg-gradient-to-r from-[#007EFF] to-[#0063FF] text-white font-bold rounded-xl hover:shadow-xl transition-all"
             >
               <span>Kembali ke Pencarian</span>
             </Link>
-          </div>
-        )}
-
-        {!loading && role === 'penerima' && historyItems.length > 0 && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {historyItems.map((item) => (
-              <div key={item.id} className="group bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100">
-                <div className="relative h-48 overflow-hidden bg-blue-50">
-                  {item.image ? (
-                    <img src={item.image} alt={item.nama} className="w-full h-full object-cover" />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center text-6xl">{getCategoryIcon(item.kategori)}</div>
-                  )}
-                </div>
-
-                <div className="p-5">
-                  <h3 className="text-xl font-bold text-gray-900 mb-2 line-clamp-1">{item.nama}</h3>
-                  <div className="space-y-2 mb-4">
-                    <div className="flex items-center space-x-2 text-sm text-gray-600">
-                      <FiPackage className="text-[#007EFF]" />
-                      <span>Jumlah diterima: <span className="font-semibold">{item.jumlah} pcs</span></span>
-                    </div>
-                    <div className="flex items-center space-x-2 text-sm text-gray-600">
-                      <FiMapPin className="text-[#007EFF]" />
-                      <span className="line-clamp-1">{item.lokasi}</span>
-                    </div>
-                    <div className="flex items-center space-x-2 text-sm text-gray-600">
-                      <FiCalendar className="text-[#007EFF]" />
-                      <span>Selesai pada: {new Date(item.updatedAt || item.createdAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
           </div>
         )}
 
