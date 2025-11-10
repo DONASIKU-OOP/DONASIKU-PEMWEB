@@ -1,56 +1,40 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import Layout from './components/layout/Layout';
+import DashboardLayout from './components/layout/DashboardLayout';
+import Home from './pages/Home';
+import About from './pages/About';
+import Login from './features/auth/Login';
+import Register from './features/auth/Register';
+import DashboardDonatur from './features/donatur/DashboardDonatur';
+import FormDonasi from './features/donatur/FormDonasi';
+import EditDonasi from './features/donatur/EditDonasi';
+import NotFound from './pages/NotFound';
 
-// Impor Layout
-import Layout from './components/layout/Layout.jsx';
-import DashboardLayout from './components/layout/DashboardLayout.jsx';
+import DashboardPenerima from './features/penerima/DashboardPenerima.jsx'; 
 
-// Impor Halaman Publik
-import Home from './pages/Home.jsx';
-import About from './pages/About.jsx';
-import NotFound from './pages/NotFound.jsx';
-
-// Impor Fitur Auth
-import Login from './features/auth/Login.jsx';
-import Register from './features/auth/Register.jsx';
-
-// Impor Fitur Donatur
-import DashboardDonatur from './features/donatur/DashboardDonatur.jsx';
-import FormDonasi from './features/donatur/FormDonasi.jsx';
-import EditDonasi from './features/donatur/EditDonasi.jsx';
-
-// Impor Fitur Penerima
-import DashboardPenerima from './features/penerima/DashboardPenerima.jsx';
-import DetailDonasi from './features/penerima/DetailDonasi.jsx';
-import PermintaanSaya from './features/penerima/PermintaanSaya.jsx';
-
-// Impor Fitur Bersama (Shared)
 import Riwayat from './features/riwayat/Riwayat.jsx';
 
-// Impor Utilitas
-import { isAuthenticated, getUserRole } from './utils/localStorage.js';
+import ProfilDonatur from './features/donatur/ProfilDonatur.jsx';
 
-// Komponen Rute Terlindungi
+import { isAuthenticated, getUserRole } from './utils/localStorage';
+
 const ProtectedRoute = ({ children, requiredRole }) => {
   if (!isAuthenticated()) {
-    // Jika belum login
     return <Navigate to="/login" replace />;
   }
-
+  
   if (requiredRole && getUserRole() !== requiredRole) {
-    // Jika role tidak sesuai
     return <Navigate to="/" replace />;
   }
-
-  // Jika lolos validasi
+  
   return children;
 };
 
-// Komponen App Utama
 function App() {
   return (
     <Router>
       <Routes>
-        {/* ===== Rute Publik (Layout Utama) ===== */}
+        {/* Public Routes */}
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="about" element={<About />} />
@@ -59,89 +43,70 @@ function App() {
           <Route path="*" element={<NotFound />} />
         </Route>
 
-        {/* ===== Rute Dashboard (Layout Dashboard) ===== */}
+        {/* Dashboard Routes - dengan DashboardLayout */}
         <Route path="/" element={<DashboardLayout />}>
-
-          {/* ===== Rute Donatur ===== */}
-          <Route
-            path="dashboard-donatur"
+          
+          {/* Rute Donatur */}
+          <Route 
+            path="dashboard-donatur" 
             element={
               <ProtectedRoute requiredRole="donatur">
                 <DashboardDonatur />
               </ProtectedRoute>
-            }
+            } 
           />
-          <Route
-            path="donasi/buat"
+          <Route 
+            path="donasi/buat" 
             element={
               <ProtectedRoute requiredRole="donatur">
                 <FormDonasi />
               </ProtectedRoute>
-            }
+            } 
           />
-          <Route
-            path="donasi/edit/:id"
+          <Route 
+            path="donasi/edit/:id" 
             element={
               <ProtectedRoute requiredRole="donatur">
                 <EditDonasi />
               </ProtectedRoute>
-            }
+            } 
           />
-
-          {/* ===== Rute Penerima ===== */}
-          <Route
-            path="dashboard-penerima"
+          
+          {/* Rute Profil Donatur */}
+          <Route 
+            path="donatur/profil" 
+            element={
+              <ProtectedRoute requiredRole="donatur">
+                <ProfilDonatur />
+              </ProtectedRoute>
+            } 
+          />
+ 
+          <Route 
+            path="dashboard-penerima" 
             element={
               <ProtectedRoute requiredRole="penerima">
                 <DashboardPenerima />
               </ProtectedRoute>
-            }
+            } 
           />
-
-          <Route
-            path="donasi/detail/:id"
-            element={
-              <ProtectedRoute requiredRole="penerima">
-                <DetailDonasi />
-              </ProtectedRoute>
-            }
-          />
-
-          {/* ===== FIX: Rute untuk Permintaan Saya ===== */}
-          <Route
-            path="penerima/permintaan-saya"
-            element={
-              <ProtectedRoute requiredRole="penerima">
-                <PermintaanSaya />
-              </ProtectedRoute>
-            }
-          />
-          {/* Tambahan agar navigasi dengan ID tidak error */}
-          <Route
-            path="penerima/permintaan-saya/:id"
-            element={
-              <ProtectedRoute requiredRole="penerima">
-                <PermintaanSaya />
-              </ProtectedRoute>
-            }
-          />
-
-          {/* ===== Rute Riwayat ===== */}
-          <Route
-            path="donatur/riwayat"
+          
+          {/* Rute Riwayat */}
+          <Route 
+            path="donatur/riwayat" 
             element={
               <ProtectedRoute requiredRole="donatur">
                 <Riwayat />
               </ProtectedRoute>
-            }
+            } 
           />
-          <Route
-            path="penerima/riwayat"
+          <Route 
+            path="penerima/riwayat" 
             element={
               <ProtectedRoute requiredRole="penerima">
                 <Riwayat />
               </ProtectedRoute>
-            }
+            } 
           />
 
         </Route>
